@@ -11,7 +11,7 @@ def home(request):
 
 @login_required
 def profile(request):
-    user_profile = Profile.objects.get(user=request.user)
+    user_profile, created = Profile.objects.get_or_create(user=request.user)
     return render(request, 'users/profile.html', {'user_profile': user_profile})
 
 
