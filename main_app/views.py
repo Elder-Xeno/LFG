@@ -14,6 +14,7 @@ def profile(request):
     user_profile = Profile.objects.get(user=request.user)
     return render(request, 'users/profile.html', {'user_profile': user_profile})
 
+
 def signup(request):
   error_message = ''
   if request.method == 'POST':
