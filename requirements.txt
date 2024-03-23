@@ -2,5 +2,5 @@ Django==5.0.2
 django-environ==0.11.2
 psycopg2==2.9.9
 psycopg2-binary==2.9.9
-python-apt==2.4.0+ubuntu2
+# python-apt==2.4.0+ubuntu2
 sqlparse==0.4.4
