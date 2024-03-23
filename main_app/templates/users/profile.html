@@ -3,4 +3,13 @@
 
 <h1>Profile</h1>
 
+<p>Username: {{ user_profile.user.username }}</p>
+<p>Games Owned: {{ user_profile.games_owned }}</p>
+<p>Platforms:</p>
+<ul>
+  {% for platform in user_profile.platforms.all %}
+    <li>{{ platform.name }}</li>
+  {% endfor %}
+</ul>
+
 {% endblock %}

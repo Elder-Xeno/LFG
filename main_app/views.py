@@ -9,7 +9,7 @@ from .models import Profile
 def home(request):
     return render(request, 'home.html')
 
-# @login_required
+@login_required
 def profile(request):
     user_profile = Profile.objects.get(user=request.user)
     return render(request, 'users/profile.html', {'user_profile': user_profile})
@@ -31,3 +31,17 @@ def signup(request):
   form = UserCreationForm()
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
+
+@login_required
+def add_game(request):
+    if request.method == 'POST':
+        pass
+    else:
+        return render(request, 'add_game.html')
+
+@login_required
+def add_platform(request):
+    if request.method == 'POST':
+        pass
+    else:
+        return render(request, 'add_platform.html')

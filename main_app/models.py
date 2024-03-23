@@ -19,8 +19,8 @@ class Game(models.Model):
         return self.name
 
 class Profile(models.Model):
-    games_owned = models.IntegerField(default=0)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    games_owned = models.IntegerField(default=0)
     platforms = models.ManyToManyField(Platform, blank=True)
 
     def __str__(self):
