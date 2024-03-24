@@ -18,12 +18,17 @@ def profile(request, username=None):
     user_profile = get_object_or_404(Profile, user__username=username)
     return render(request, 'users/profile.html', {'user_profile': user_profile})
 
+
 def signup(request):
     error_message = ''
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            
+            # Create a profile for the newly created user
+            Profile.objects.create(user=user)
+            
             login(request, user)
             return redirect('profile')
         else:
