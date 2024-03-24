@@ -15,7 +15,7 @@
             <div>
                 <ul>
                   {% if user.is_authenticated %}
-                  <li><a href="{% url 'profile' %}">Profile</a></li>
+                  <li><a href="{% url 'profile' username=request.user.username %}">Profile</a></li>
                   <li><a href="{% url 'add_platform' %}">Add Platform</a></li>
                   <li><a href="{% url 'add_game' %}">Add Game</a></li>
                     <li>
@@ -29,17 +29,25 @@
                   {% else %}
                     <li><a href="{% url 'signup' %}">Sign Up</a></li>
                     <li><a href="{% url 'login' %}">Log In</a></li>
-                  {% endif %}
-                </ul>
-            </div>
-        </nav>
-    </header>
-    <main class="container">
-        {% block content %}
-        {% endblock %}
-    </main>
-  	<footer class="page-footer">
-
-    </footer>
-</body>
-</html>
+                    {% endif %}
+                  </ul>
+              </div>
+          </nav>
+          {% if request.path != '/' %}
+          <div class="search-bar">
+              <form method="get" action="{% url 'user_search' %}">
+                  <input type="text" name="query" placeholder="Search for players...">
+                  <button type="submit">Search</button>
+              </form>
+          </div>
+          {% endif %}
+      </header>
+      <main class="container">
+          {% block content %}
+          {% endblock %}
+      </main>
+      <footer class="page-footer">
+  
+      </footer>
+  </body>
+  </html>
