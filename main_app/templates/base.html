@@ -33,7 +33,7 @@
                   </ul>
               </div>
           </nav>
-          {% if request.path != '/' %}
+          {% if user.is_authenticated and request.path != '/' %}
           <div class="search-bar">
               <form method="get" action="{% url 'user_search' %}">
                   <input type="text" name="query" placeholder="Search for players...">
