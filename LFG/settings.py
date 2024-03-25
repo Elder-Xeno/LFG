@@ -81,10 +81,13 @@ WSGI_APPLICATION = 'LFG.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'LFG',
+        'NAME': 'postgres',
+        'USER': 'gabbymaher',
+        'PASSWORD': 'A5FAsRjzpRNRBdzZzqvs',
+        'HOST': 'lfg-db.cn4i4ue8m6m6.ap-southeast-2.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
