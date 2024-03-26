@@ -1,15 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <h1>Profile</h1>
 
 <p>Username: {{ user_profile.user.username }}</p>
-<p>Games Owned: {{ user_profile.games_owned }}</p>
+<p>Games Owned: {{ games_owned.count }}</p>
 <p>Platforms:</p>
 <ul>
   {% for platform in user_profile.platforms.all %}
     <li>{{ platform.name }}</li>
   {% endfor %}
 </ul>
+
+<h2>Games Collection</h2>
+<div class="card-container">
+  {% for game in games_owned %}
+    <div class="card">
+      <div class="card-body">
+        <h3>{{ game.name }}</h3>
+      </div>
+    </div>
+  {% endfor %}
+</div>
 
 {% endblock %}

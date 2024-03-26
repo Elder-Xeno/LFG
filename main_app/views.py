@@ -5,8 +5,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-
-from .models import Profile
+from .models import Profile, Game, Platform
+from django.db.models import Count
 
 def home(request):
     return render(request, 'home.html')
@@ -16,7 +16,8 @@ def profile(request, username=None):
     if username is None:
         username = request.user.username
     user_profile = get_object_or_404(Profile, user__username=username)
-    return render(request, 'users/profile.html', {'user_profile': user_profile})
+    games_owned = user_profile.games.all()
+    return render(request, 'users/profile.html', {'user_profile': user_profile, 'games_owned': games_owned})
 
 
 def signup(request):
@@ -41,16 +42,42 @@ def signup(request):
 @login_required
 def add_game(request):
     if request.method == 'POST':
-        pass
+        name = request.POST.get('name')
+        platforms = request.POST.getlist('platforms')
+        game = Game.objects.create(name=name)
+        for platform_id in platforms:
+            platform = Platform.objects.get(pk=platform_id)
+            game.platforms.add(platform)
+        
+        profile = Profile.objects.get(user=request.user)
+        for platform_id in platforms:
+            platform = Platform.objects.get(pk=platform_id)
+            if not profile.platforms.filter(pk=platform_id).exists():
+                profile.platforms.add(platform)
+        
+        profile.games.add(game)
+        profile.games_owned = profile.games.count()
+        profile.save()
+        
+        return redirect('profile')
     else:
-        return render(request, 'add_game.html')
+        platforms = Platform.objects.all()
+        return render(request, 'main_app/add_game.html', {'platforms': platforms})
+
 
 @login_required
 def add_platform(request):
     if request.method == 'POST':
-        pass
+        platform_name = request.POST.get('name')
+        platform, created = Platform.objects.get_or_create(name=platform_name)
+        profile = Profile.objects.get(user=request.user)
+        if platform not in profile.platforms.all():
+            profile.platforms.add(platform)
+            profile.save()
+        
+        return redirect('profile')
     else:
-        return render(request, 'add_platform.html')
+        return render(request, 'main_app/add_platform.html')
 
 @login_required
 def user_search(request):

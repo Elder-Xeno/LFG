@@ -12,7 +12,7 @@ class Platform(models.Model):
 
 class Game(models.Model):
     name = models.CharField(max_length=100)
-    genre = models.CharField(max_length=100)
+    platforms = models.ManyToManyField(Platform)
     
 
     def __str__(self):
@@ -21,6 +21,7 @@ class Game(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     games_owned = models.IntegerField(default=0)
+    games = models.ManyToManyField(Game)
     platforms = models.ManyToManyField(Platform, blank=True)
 
     def __str__(self):
