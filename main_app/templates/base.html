@@ -18,6 +18,7 @@
                   <li><a href="{% url 'profile' username=request.user.username %}">Profile</a></li>
                   <li><a href="{% url 'add_platform' %}">Add Platform</a></li>
                   <li><a href="{% url 'add_game' %}">Add Game</a></li>
+                  <li><a href="{% url 'chat:room' room_name='lobby' %}">Chat Room</a></li>
                     <li>
                       <a href="#">
                         <form method="post" action="{% url 'logout' %}">
