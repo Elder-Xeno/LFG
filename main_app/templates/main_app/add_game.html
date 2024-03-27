@@ -3,17 +3,37 @@
 
 <h1>Add Game</h1>
 
-<form method="post" action="{% url 'add_game' %}">
+<form action="" method="GET">
   {% csrf_token %}
-  <label for="name">Name:</label>
-  <input type="text" id="name" name="name" required><br><br>
-  <label for="platforms">Platforms:</label><br>
-  <select name="platforms" multiple>
-    {% for platform in platforms %}
-      <option value="{{ platform.id }}">{{ platform.name }}</option>
-    {% endfor %}
-  </select><br><br>
-  <button type="submit">Add Game</button>
+  <label for="new-game-search">Search Game:</label>
+  <input type="text" id="new-game-search" name="search" value="{{ request.GET.search }}">
+  <button>Search</button>
 </form>
+  
+
+<ul>  
+  {% for game in games %}
+    <li>
+      <form method="post" action="{% url 'add_game' %}">
+        {% csrf_token %}
+        <h4>{{ game.name }}</h4>
+        
+        <input type="text" id="id" name="id" value="{{ game.id }}" hidden>
+        <!-- <input type="text" id="name" name="name" required value="{{ game.name }}" hidden> -->
+        <!-- <input type="text" id="cover" name="cover" required value="{{ game.cover }}" hidden> -->
+        
+        <label for="platforms">Platforms:</label>
+        <select name="platforms" >
+          {% for platform in platforms %}
+          <option value="{{ platform.id }}">{{ platform.name }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">Add Game</button>
+      </form>
+    </li>
+  {% endfor %}
+</ul>
+
+
 
 {% endblock %}

@@ -7,6 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile, Game, Platform
 from django.db.models import Count
+from django.http import JsonResponse
+from requests import post
+import os
+
 
 def home(request):
     return render(request, 'home.html')
@@ -61,8 +65,14 @@ def add_game(request):
         
         return redirect('profile')
     else:
+        games = []
+        search = request.GET.get("search")
+        if search:
+            games = search_games_api(search)
+
         platforms = Platform.objects.all()
-        return render(request, 'main_app/add_game.html', {'platforms': platforms})
+        return render(request, 'main_app/add_game.html', {'platforms': platforms, "games": games})
+
 
 
 @login_required
@@ -92,3 +102,26 @@ class CustomLoginView(BaseLoginView):
         user = form.get_user()
         login(self.request, user)
         return redirect(reverse('profile', kwargs={'username': user.username}))
+
+
+
+
+def search_games_api(search):
+    access_token = "wgc7mftl4uywt7g5xay6tjim4agucq"
+    headers = {
+        'Client-ID': os.environ.get("CLIENT_ID"), 
+        'Authorization': f'Bearer {access_token}'
+    }
+
+    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name; search: "{search}" ;')
+
+    return response.json()
+
+
+# def get_twitch_access_token():
+#     client_id = os.environ.get("CLIENT_ID") 
+#     client_secret = os.environ.get("CLIENT_SECRET") 
+
+#     response = post(f'https://id.twitch.tv/oauth2/token?client_id={client_id}&client_secret={client_secret}&grant_type=client_credentials')
+
+#     return response

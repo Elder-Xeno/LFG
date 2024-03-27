@@ -3,7 +3,7 @@ body {
     min-height: 100vh;
     flex-direction: column;
     font-family: 'Courier New', Courier, monospace;
-    background-color: grey;
+    background-color: rgb(203, 201, 201);
   }
   
   main {
