@@ -19,6 +19,7 @@
                   <a href="{% url 'profile' username=request.user.username %}">Profile</a>
                   <a href="{% url 'add_platform' %}">Add Platform</a>
                   <a href="{% url 'add_game' %}">Add Game</a>
+                  <a href="{% url 'chat:room' room_name='lobby' %}">Chat Room</a>
                   
                       <a href="#">
                         <form method="post" action="{% url 'logout' %}">
