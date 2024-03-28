@@ -39,10 +39,10 @@
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
-            const username = "{{ request.user.username }}"; // Add this line to get the username
+            const username = "{{ request.user.username }}";
             chatSocket.send(JSON.stringify({
                 'message': message,
-                'username': username  // Include the username in the message data
+                'username': username
             }));
             messageInputDom.value = '';
         };

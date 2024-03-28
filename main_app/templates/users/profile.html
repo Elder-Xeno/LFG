@@ -5,11 +5,12 @@
 <p>Username: {{ user_profile.user.username }}</p>
 <p>Games Owned: {{ games_owned.count }}</p>
 <p>Platforms:</p>
-<ul>
-  {% for platform in user_profile.platforms.all %}
-    <li>{{ platform.name }}</li>
-  {% endfor %}
-</ul>
+{% if user_profile == request.user.profile %}
+    {% for platform in user_profile.platforms.all %}
+        <p>{{ platform.name }}</p>
+        <a href="{% url 'dissociate_platform' platform.id %}">Remove</a>
+    {% endfor %}
+{% endif %}
 
 <h2>Games Collection</h2>
 <div class="card-container">

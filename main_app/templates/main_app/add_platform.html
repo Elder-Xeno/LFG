@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <h1>Add Platform</h1>
-
 <form method="post" action="{% url 'add_platform' %}">
   {% csrf_token %}
-  <label for="name">Name:</label>
-  <input type="text" id="name" name="name" required><br><br>
+  <label for="name">Select Platform:</label>
+  <select id="name" name="name" multiple>
+    {% for platform_code, platform_name in platforms %}
+    <option value="{{ platform_code }}">{{ platform_name }}</option>
+    {% endfor %}
+  </select>
+  <br><br>
   <button type="submit">Add Platform</button>
 </form>
-
 {% endblock %}
