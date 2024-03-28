@@ -17,8 +17,10 @@
       <form method="post" action="{% url 'add_game' %}">
         {% csrf_token %}
         <h4>{{ game.name }}</h4>
+        <h4>{{ game.datetime }}</h4>
         
         <input type="text" id="id" name="id" value="{{ game.id }}" hidden>
+        <input type="text" id="datetime" name="datetime" required value="{{ game.datetime }}" hidden>
         <!-- <input type="text" id="name" name="name" required value="{{ game.name }}" hidden> -->
         <!-- <input type="text" id="cover" name="cover" required value="{{ game.cover }}" hidden> -->
         

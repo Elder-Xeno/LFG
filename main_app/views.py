@@ -113,7 +113,7 @@ def search_games_api(search):
         'Authorization': f'Bearer {access_token}'
     }
 
-    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name; search: "{search}" ;')
+    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name; search: "{search}"; datetime;')
 
     return response.json()
 
