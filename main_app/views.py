@@ -11,6 +11,16 @@ from django.http import JsonResponse
 from requests import post
 import os
 
+PLATFORMS = (
+    ('PC', 'PC'),
+    ('PS4', 'PlayStation 4'),
+    ('PS5', 'PlayStation 5'),
+    ('XBOX', 'Xbox One'),
+    ('XBOX_SERIES_X', 'Xbox Series X'),
+    ('XBOX_SERIES_S', 'Xbox Series S'),
+    ('SWITCH_LITE', 'Nintendo Switch Lite'),
+    ('SWITCH', 'Nintendo Switch'),
+)
 
 def home(request):
     return render(request, 'home.html')
@@ -23,6 +33,13 @@ def profile(request, username=None):
     games_owned = user_profile.games.all()
     return render(request, 'users/profile.html', {'user_profile': user_profile, 'games_owned': games_owned})
 
+@login_required
+def dissociate_platform(request, platform_id):
+    platform = get_object_or_404(Platform, id=platform_id)
+    profile = Profile.objects.get(user=request.user)
+    if platform in profile.platforms.all():
+        profile.platforms.remove(platform)
+    return redirect('profile')
 
 def signup(request):
     error_message = ''
@@ -85,20 +102,22 @@ def add_game(request):
         return render(request, 'main_app/add_game.html', {'platforms': platforms, "games": games})
 
 
-
 @login_required
 def add_platform(request):
     if request.method == 'POST':
-        platform_name = request.POST.get('name')
-        platform, created = Platform.objects.get_or_create(name=platform_name)
-        profile = Profile.objects.get(user=request.user)
-        if platform not in profile.platforms.all():
-            profile.platforms.add(platform)
-            profile.save()
-        
+        platform_codes = request.POST.getlist('name')
+        for platform_code in platform_codes:
+            platform_name = dict(PLATFORMS)[platform_code]
+            platform, created = Platform.objects.get_or_create(name=platform_name)
+            profile = Profile.objects.get(user=request.user)
+            if platform not in profile.platforms.all():
+                profile.platforms.add(platform)
+        profile.save()
         return redirect('profile')
-    else:
-        return render(request, 'main_app/add_platform.html')
+    return render(request, 'main_app/add_platform.html', {'platforms': PLATFORMS})
+
+
+
 
 @login_required
 def user_search(request):

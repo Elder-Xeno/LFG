@@ -12,4 +12,5 @@ urlpatterns = [
   path('add_game/', views.add_game, name='add_game'),
   path('accounts/signup/', views.signup, name='signup'),
   path('search/', views.user_search, name='user_search'),
+  path('platforms/<int:platform_id>/dissociate/', views.dissociate_platform, name='dissociate_platform'),
 ]
