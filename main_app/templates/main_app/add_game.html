@@ -13,26 +13,25 @@
 
 <ul>  
   {% for game in games %}
-    <li>
       <form method="post" action="{% url 'add_game' %}">
         {% csrf_token %}
         <h4>{{ game.name }}</h4>
-        <h4>{{ game.datetime }}</h4>
+        <!-- <img {{ game.cover }}> -->
+        
         
         <input type="text" id="id" name="id" value="{{ game.id }}" hidden>
-        <input type="text" id="datetime" name="datetime" required value="{{ game.datetime }}" hidden>
-        <!-- <input type="text" id="name" name="name" required value="{{ game.name }}" hidden> -->
+        <input type="text" id="name" name="name" required value="{{ game.name }}" hidden>
+        <!-- <input type="text" id="url" name="url" required value="{{ game.url }}" hidden> -->
         <!-- <input type="text" id="cover" name="cover" required value="{{ game.cover }}" hidden> -->
         
         <label for="platforms">Platforms:</label>
-        <select name="platforms" >
+        <select name="platforms" id="platforms">
           {% for platform in platforms %}
           <option value="{{ platform.id }}">{{ platform.name }}</option>
           {% endfor %}
         </select>
         <button type="submit">Add Game</button>
       </form>
-    </li>
   {% endfor %}
 </ul>
 

@@ -43,12 +43,23 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
+def search_games_api(search):
+    access_token = "wgc7mftl4uywt7g5xay6tjim4agucq"
+    headers = {
+        'Client-ID': os.environ.get("CLIENT_ID"), 
+        'Authorization': f'Bearer {access_token}'
+    }
+
+    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name; search: "{search}"; datetime;')
+
+    return response.json()
+
 @login_required
 def add_game(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         platforms = request.POST.getlist('platforms')
-        game = Game.objects.create(name=name)
+        game = Game.objects.create(name=search_games_api)
         for platform_id in platforms:
             platform = Platform.objects.get(pk=platform_id)
             game.platforms.add(platform)
@@ -106,16 +117,6 @@ class CustomLoginView(BaseLoginView):
 
 
 
-def search_games_api(search):
-    access_token = "wgc7mftl4uywt7g5xay6tjim4agucq"
-    headers = {
-        'Client-ID': os.environ.get("CLIENT_ID"), 
-        'Authorization': f'Bearer {access_token}'
-    }
-
-    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name; search: "{search}"; datetime;')
-
-    return response.json()
 
 
 # def get_twitch_access_token():
