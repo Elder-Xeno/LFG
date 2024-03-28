@@ -9,6 +9,7 @@ from .models import Profile, Game, Platform
 from django.db.models import Count
 from django.http import JsonResponse
 from requests import post
+# from .utils import search_games_api
 import os
 
 PLATFORMS = (
@@ -76,7 +77,11 @@ def add_game(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         platforms = request.POST.getlist('platforms')
-        game = Game.objects.create(name=search_games_api)
+        game_data_list = search_games_api(name)
+        for game_data in game_data_list:
+            game = Game.objects.create(name=game_data.get('name'))
+
+
         for platform_id in platforms:
             platform = Platform.objects.get(pk=platform_id)
             game.platforms.add(platform)
