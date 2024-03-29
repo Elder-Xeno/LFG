@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <h1>Add Game</h1>
-
 <form action="" method="GET">
   {% csrf_token %}
   <label for="new-game-search">Search Game:</label>
@@ -10,31 +8,27 @@
   <button>Search</button>
 </form>
   
-
 <ul>  
   {% for game in games %}
       <form method="post" action="{% url 'add_game' %}">
         {% csrf_token %}
         <!-- <h4>{{ game.name }}</h4> -->
         <h4><a href="{{ game.url }}" target="_blank">{{ game.name }}</a></h4>
-        
-        
+
+
         <input type="text" id="id" name="id" value="{{ game.id }}" hidden>
         <input type="text" id="name" name="name" required value="{{ game.name }}" hidden>
-        <input type="text" id="url" name="url" required value="{{ game.url }}" hidden>
-        <!-- <input type="text" id="cover" name="cover" required value="{{ game.cover }}" hidden> -->
-        
-        <label for="platforms">Platforms:</label>
-        <select name="platforms" id="platforms">
-          {% for platform in platforms %}
-          <option value="{{ platform.id }}">{{ platform.name }}</option>
-          {% endfor %}
-        </select>
-        <button type="submit">Add Game</button>
-      </form>
+<input type="text" id="url" name="url" required value="{{ game.url }}" hidden>
+<!-- <input type="text" id="cover" name="cover" required value="{{ game.cover }}" hidden> -->
+
+<label for="platforms">Platforms:</label>
+<select name="platforms" id="platforms">
+  {% for platform in platforms %}
+  <option value="{{ platform.id }}">{{ platform.name }}</option>
   {% endfor %}
+</select>
+<button type="submit">Add Game</button>
+</form>
+{% endfor %}
 </ul>
-
-
-
 {% endblock %}
