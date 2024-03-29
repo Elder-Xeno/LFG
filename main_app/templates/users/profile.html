@@ -6,15 +6,27 @@
         {% if user_profile.profile_image %}
             <img class="profile-image" src="{{ user_profile.profile_image.url }}" alt="Profile Image">
         {% else %}
-            <img class="default-profile-image" src="/static/imgs/default-pic.JPG" alt="Default Profile Image">
+                <img class="default-profile-image" src="/static/imgs/default-pic.JPG" alt="Default Profile Image">
         {% endif %}
     </div>
     <h1>{{ user_profile.user.username }}</h1>
     {% if user_profile == request.user.profile %}
         <a href="{% url 'edit_profile' %}">Edit Profile</a>
     {% endif %}
+    {% if user_profile == request.user.profile %}
+        <a href="{% url 'edit_profile' %}">Edit Profile</a>
+    {% endif %}
 </div>
 
+{% if edit_mode %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="id_profile_image">Upload Profile Picture:</label>
+        <input type="file" name="profile_image" id="id_profile_image">
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Platforms:</h2>
 {% if edit_mode %}
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -38,11 +50,24 @@
         </div>
     </div>
     {% endfor %}
+
+    <h2>Games Collection ({{ games_owned.count }}):</h2>
+    {% for game in games_owned %}
+    <div class="card">
+        <div class="card-body">
+            <h6>{{ game.name }}</h6>
+            <a href="{% url 'dissociate_game' game.id %}">Remove</a>
+        </div>
+    </div>
+    {% endfor %}
 {% else %}
+    <h2>Platforms:</h2>
     <h2>Platforms:</h2>
     {% for platform in user_profile.platforms.all %}
         <p>{{ platform.name }}</p>
     {% endfor %}
+
+    <h2>Games Collection ({{ games_owned.count }}):</h2>
 
     <h2>Games Collection ({{ games_owned.count }}):</h2>
     {% for game in games_owned %}
@@ -53,4 +78,6 @@
         </div>
     {% endfor %}
 {% endif %}
+{% endif %}
 {% endblock %}
+

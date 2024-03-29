@@ -13,6 +13,7 @@ class Platform(models.Model):
 class Game(models.Model):
     name = models.CharField(max_length=100)
     platforms = models.ManyToManyField(Platform)
+    url = models.URLField()
     
 
     def __str__(self):
@@ -24,6 +25,7 @@ class Profile(models.Model):
     games_owned = models.IntegerField(default=0)
     games = models.ManyToManyField(Game)
     platforms = models.ManyToManyField(Platform, blank=True)
+    url = models.URLField()
 
     def __str__(self):
         return self.user.username
