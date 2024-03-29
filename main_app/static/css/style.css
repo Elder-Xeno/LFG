@@ -1,53 +1,83 @@
 * {
-  font-family: Helvetica;
-  color: #000000;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* Body styles */
 body {
+  font-family: Arial, sans-serif;
+  background-image: url("imgs/lfg_background.png");
+}
+
+/* Header styles */
+header {
+  /* background-color: #ec7c2c; */
+  background-image: url("imgs/header_background.jpg");
+  background-position: center;
+  color: #fff;
+  padding: 10px;
   display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  font-family: Verdana, sans-serif;
+  justify-content: right;
   font-size: 20px;
 }
 
-header {
-  background-color: #5e5a5a;
-  background-blend-mode: overlay;
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 30px;
+}
+
+nav ul li:last-child {
+  margin-right: 0;
+}
+
+nav ul li a {
   color: #fff;
-  text-align: center;
-  padding: 0px 0;
-  font-size: 30px;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Main styles */
+.container {
+  margin-top: 20px;
+}
+
+
+.games-owned {
+  font-weight: bold;
+}
+
+.platforms-heading {
+  font-style: italic;
+}
+
+.platform-container {
+  margin-bottom: 10px;
   display: flex;
-}
-
-.logo img {
-  width: 100px;
-  height: auto;
-}
-
-header a {
-  justify-content: space-between;
-  text-align-last: left;
-  margin: 0 5px;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-}
-
-body > main {
-  grid-area: main;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  background-color: #87a9df;
-  padding: 20px;
-  background-image: url("../imgs/lfg_background.png");
+  width: 250px; /* Set the width of the box */
+  height: 50px; /* Set the height of the box */
+  border: 2px solid #000; /* Add a border around the box */
+  padding: 20px; /* Add padding inside the box */
+  background-color: #f0f0f0; /* Set the background color of the box */
 }
 
-.search-bar {
-  margin-top: 10px;
-  justify-content: right;
+
+.platform-name {
+  color: rgb(14, 76, 43);
+  font-family: 'Franklin Gothic Medium', Arial, sans-serif;
 }
 
-main {
-  flex: 1 0 auto;
+.remove-link {
+  color: red;
+  margin-left: 30px;
 }
