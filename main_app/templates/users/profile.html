@@ -39,7 +39,7 @@
     {% for game in games_owned %}
         <div class="card">
             <div class="card-body">
-                <h6>{{ game.name }}</h6>
+              <h6><a href="{{ game.url }}" target="_blank">{{ game.name }}</a></h6>
             </div>
         </div>
     {% endfor %}

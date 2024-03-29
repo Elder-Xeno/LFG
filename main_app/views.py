@@ -80,7 +80,7 @@ def search_games_api(search):
         'Authorization': f'Bearer {access_token}'
     }
 
-    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name; search: "{search}"; datetime;')
+    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name, url; search: "{search}"; datetime;')
 
     return response.json()
 
@@ -88,10 +88,12 @@ def search_games_api(search):
 def add_game(request):
     if request.method == 'POST':
         name = request.POST.get('name')
+        url = request.POST.get('url')
         platforms = request.POST.getlist('platforms')
         game_data_list = search_games_api(name)
-        for game_data in game_data_list:
-            game = Game.objects.create(name=game_data.get('name'))
+        if game_data_list:
+            game_data = game_data_list[0]
+            game = Game.objects.create(name=game_data.get('name'), url=url)
 
 
         for platform_id in platforms:
