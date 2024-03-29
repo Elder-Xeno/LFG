@@ -2,7 +2,7 @@ from django.contrib.auth.views import LoginView as BaseLoginView
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import ProfilePictureForm
+from .forms import ProfilePictureForm, EditProfileForm, EditProfileForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -54,6 +54,28 @@ def dissociate_platform(request, platform_id):
         profile.platforms.remove(platform)
     return redirect('profile')
 
+@login_required
+def dissociate_game(request, game_id):
+    game = Game.objects.get(pk=game_id)
+    profile = Profile.objects.get(user=request.user)
+    if game in profile.games.all():
+        profile.games.remove(game)
+        # Update games_owned count
+        profile.games_owned = profile.games.count()
+        profile.save()
+    return redirect('profile')
+
+@login_required
+def dissociate_game(request, game_id):
+    game = Game.objects.get(pk=game_id)
+    profile = Profile.objects.get(user=request.user)
+    if game in profile.games.all():
+        profile.games.remove(game)
+        # Update games_owned count
+        profile.games_owned = profile.games.count()
+        profile.save()
+    return redirect('profile')
+
 def signup(request):
     error_message = ''
     if request.method == 'POST':
@@ -80,7 +102,7 @@ def search_games_api(search):
         'Authorization': f'Bearer {access_token}'
     }
 
-    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name, url; search: "{search}"; datetime;')
+    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name; search: "{search}"; datetime;')
 
     return response.json()
 
@@ -88,37 +110,37 @@ def search_games_api(search):
 def add_game(request):
     if request.method == 'POST':
         name = request.POST.get('name')
-        url = request.POST.get('url')
         platforms = request.POST.getlist('platforms')
         game_data_list = search_games_api(name)
         if game_data_list:
             game_data = game_data_list[0]
-            game = Game.objects.create(name=name, url=url)
-
-
-        for platform_id in platforms:
-            platform = Platform.objects.get(pk=platform_id)
-            game.platforms.add(platform)
-        
-        profile = Profile.objects.get(user=request.user)
-        for platform_id in platforms:
-            platform = Platform.objects.get(pk=platform_id)
-            if not profile.platforms.filter(pk=platform_id).exists():
-                profile.platforms.add(platform)
-        
-        profile.games.add(game)
-        profile.games_owned = profile.games.count()
-        profile.save()
-        
+        if game_data_list:
+            game_data = game_data_list[0]
+            game = Game.objects.create(name=game_data.get('name'))
+            for platform_id in platforms:
+                platform = Platform.objects.get(pk=platform_id)
+                game.platforms.add(platform)
+            profile = Profile.objects.get(user=request.user)
+            profile.games.add(game)
+            profile.games_owned = profile.games.count()
+            profile.save()
+            for platform_id in platforms:
+                platform = Platform.objects.get(pk=platform_id)
+                game.platforms.add(platform)
+            profile = Profile.objects.get(user=request.user)
+            profile.games.add(game)
+            profile.games_owned = profile.games.count()
+            profile.save()
         return redirect('profile')
     else:
         games = []
         search = request.GET.get("search")
         if search:
             games = search_games_api(search)
-
         platforms = Platform.objects.all()
         return render(request, 'main_app/add_game.html', {'platforms': platforms, "games": games})
+
+
 
 
 @login_required
@@ -153,8 +175,40 @@ class CustomLoginView(BaseLoginView):
         return redirect(reverse('profile', kwargs={'username': user.username}))
 
 
-
-
+@login_required
+def edit_profile(request):
+    profile = Profile.objects.get(user=request.user)
+    edit_mode = False
+    
+    if request.method == 'POST':
+        edit_mode = True
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  
+    else:
+        form = EditProfileForm(instance=profile)
+    
+    edit_profile_url = reverse('edit_profile')
+    
+    return render(request, 'main_app/edit_profile.html', {'form': form, 'edit_mode': edit_mode, 'edit_profile_url': edit_profile_url, 'games_owned': profile.games.all(), 'platforms_owned': profile.platforms.all()})
+@login_required
+def edit_profile(request):
+    profile = Profile.objects.get(user=request.user)
+    edit_mode = False
+    
+    if request.method == 'POST':
+        edit_mode = True
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  
+    else:
+        form = EditProfileForm(instance=profile)
+    
+    edit_profile_url = reverse('edit_profile')
+    
+    return render(request, 'main_app/edit_profile.html', {'form': form, 'edit_mode': edit_mode, 'edit_profile_url': edit_profile_url, 'games_owned': profile.games.all(), 'platforms_owned': profile.platforms.all()})
 
 
 # def get_twitch_access_token():
