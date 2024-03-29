@@ -19,6 +19,7 @@ class Game(models.Model):
         return self.name
 
 class Profile(models.Model):
+    profile_image = models.ImageField(upload_to='profile_images', default='default-pic.JPG')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     games_owned = models.IntegerField(default=0)
     games = models.ManyToManyField(Game)

@@ -2,6 +2,7 @@ from django.contrib.auth.views import LoginView as BaseLoginView
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
+from .forms import ProfilePictureForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -25,6 +26,17 @@ PLATFORMS = (
 
 def home(request):
     return render(request, 'home.html')
+
+@login_required
+def upload_profile_picture(request):
+    if request.method == 'POST':
+        form = ProfilePictureForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfilePictureForm(instance=request.user.profile)
+    return render(request, 'upload_profile_picture.html', {'form': form})
 
 @login_required
 def profile(request, username=None):
