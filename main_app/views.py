@@ -93,7 +93,7 @@ def add_game(request):
         game_data_list = search_games_api(name)
         if game_data_list:
             game_data = game_data_list[0]
-            game = Game.objects.create(name=game_data.get('name'), url=url)
+            game = Game.objects.create(name=name, url=url)
 
 
         for platform_id in platforms:
