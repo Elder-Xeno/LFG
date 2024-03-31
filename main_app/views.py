@@ -88,14 +88,16 @@ def signup(request):
         form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
 def search_games_api(search):
     access_token = "wgc7mftl4uywt7g5xay6tjim4agucq"
     headers = {
         'Client-ID': os.environ.get("CLIENT_ID"), 
         'Authorization': f'Bearer {access_token}'
     }
-    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name, url; search: "{search}"; datetime;')
+    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name, url; search: "{search}"; where version_parent = null;')
     return response.json()
+
 
 @login_required
 def add_game(request):

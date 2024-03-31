@@ -16,10 +16,12 @@
         <h4><a href="{{ game.url }}" target="_blank">{{ game.name }}</a></h4>
 
 
+
         <input type="text" id="id" name="id" value="{{ game.id }}" hidden>
         <input type="text" id="name" name="name" required value="{{ game.name }}" hidden>
-<input type="text" id="url" name="url" required value="{{ game.url }}" hidden>
-<!-- <input type="text" id="cover" name="cover" required value="{{ game.cover }}" hidden> -->
+        <input type="text" id="url" name="url" required value="{{ game.url }}" hidden>
+        <!-- <input type="text" id="cover" name="cover" required value="{{ game.cover }}" hidden> -->
+        
 
 <label for="platforms">Platforms:</label>
 <select name="platforms" id="platforms">

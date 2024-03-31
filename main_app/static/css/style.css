@@ -4,9 +4,14 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'SF Atarian System';
+  src: url('css/fonts/SF Atarian System.ttf') format('ttf');
+}
+
 /* Body styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'SF Atarian System', sans-serif;
   background-image: url("imgs/lfg_background.png");
 }
 
@@ -19,7 +24,7 @@ header {
   padding: 10px;
   display: flex;
   justify-content: right;
-  font-size: 20px;
+  font-size: 30px;
 }
 
 nav ul {

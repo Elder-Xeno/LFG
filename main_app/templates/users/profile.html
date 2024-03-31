@@ -41,7 +41,7 @@
 {% else %}
     <h2>Platforms:</h2>
     {% for platform in user_profile.platforms.all %}
-        <p>{{ platform.name }}</p>
+        <h5><p>{{ platform.name }}</p></h5>
     {% endfor %}
 
     <h2>Games Collection ({{ games_owned.count }}):</h2>
@@ -49,7 +49,7 @@
     {% for game in games_owned %}
         <div class="card">
             <div class="card-body">
-                <h6><a href="{{ game.url }}" target="_blank">{{ game.name }}</a></h6>
+                <h4><a href="{{ game.url }}" target="_blank">{{ game.name }}</a></h4>
             </div>
         </div>
     {% endfor %}
