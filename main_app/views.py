@@ -10,6 +10,9 @@ from .models import Profile, Game, Platform
 from django.db.models import Count
 from django.http import JsonResponse
 from requests import post
+from django.conf import settings
+from io import BytesIO
+from PIL import Image
 # from .utils import search_games_api
 import os
 
@@ -26,17 +29,44 @@ PLATFORMS = (
 )
 
 
-def home(request):
-    return render(request, 'home.html')
+def upload_to_aws_s3(file, filename):
+    import boto3
+    from botocore.exceptions import NoCredentialsError
+
+    s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,
+                      aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+    try:
+        s3.upload_fileobj(file, AWS_STORAGE_BUCKET_NAME, filename)
+        return True
+    except NoCredentialsError:
+        print("Credentials not available")
+        return False
 
 
-@login_required
+
+def resize_image(image, size=(100, 100)):
+    img = Image.open(image)
+    img.thumbnail(size)
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
+    output = BytesIO()
+    img.save(output, format='JPEG')
+    output.seek(0)
+    return output
+
+
 def upload_profile_picture(request):
     if request.method == 'POST':
         form = ProfilePictureForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
-            form.save()
-            return redirect('profile')
+            uploaded_file = request.FILES['profile_image']
+            if upload_to_aws_s3(uploaded_file.file, uploaded_file.name):
+                s3_url = f'{settings.AWS_S3_CUSTOM_DOMAIN}/{uploaded_file.name}'
+                request.user.profile.profile_image = s3_url
+                request.user.profile.save()
+                return redirect('profile')
+            else:
+                pass
     else:
         form = ProfilePictureForm(instance=request.user.profile)
     return render(request, 'upload_profile_picture.html', {'form': form})
@@ -76,8 +106,6 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            
-            # Create a profile for the newly created user
             Profile.objects.create(user=user)
             
             login(request, user)
@@ -157,7 +185,8 @@ class CustomLoginView(BaseLoginView):
         return redirect(reverse('profile', kwargs={'username': user.username}))
 
 
-@login_required
+from django.core.files.storage import default_storage
+
 def edit_profile(request):
     profile = Profile.objects.get(user=request.user)
     edit_mode = False
@@ -167,13 +196,32 @@ def edit_profile(request):
         form = EditProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
+                
+            if 'profile_image' in request.FILES:
+                uploaded_file = request.FILES['profile_image']
+                file_name = f"profile_images/{uploaded_file.name}"
+                file_path = default_storage.save(file_name, uploaded_file)
+                profile.profile_image = default_storage.url(file_path)
+                profile.save()
+
             return redirect('profile')  
     else:
         form = EditProfileForm(instance=profile)
+
+    has_profile_image = bool(profile.profile_image)
     
     edit_profile_url = reverse('edit_profile')
-    
-    return render(request, 'main_app/edit_profile.html', {'form': form, 'edit_mode': edit_mode, 'edit_profile_url': edit_profile_url, 'games_owned': profile.games.all(), 'platforms_owned': profile.platforms.all()})
+
+    return render(request, 'main_app/edit_profile.html', {'form': form, 'edit_mode': edit_mode, 'edit_profile_url': edit_profile_url, 'has_profile_image': has_profile_image, 'games_owned': profile.games.all(), 'platforms_owned': profile.platforms.all()})
+
+
+
+@login_required
+def delete_profile_picture(request):
+    profile = Profile.objects.get(user=request.user)
+    if profile.profile_image:
+        profile.profile_image.delete()
+    return redirect('edit_profile')
 
 # def get_twitch_access_token():
 #     client_id = os.environ.get("CLIENT_ID") 

@@ -20,8 +20,20 @@ body {
   font-weight: bold;
 }
 
+.profile-image-container {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.profile-image {
+  width: 100%;
+  height: auto;
+}
+
 header {
-  /* background-color: #ec7c2c; */
   background-image: url("imgs/header_background.jpg");
   background-position: center;
   color: #fff;
@@ -55,11 +67,9 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 
-
 .container {
   margin-top: 20px;
 }
-
 
 .games-owned {
   font-weight: bold;
@@ -79,7 +89,6 @@ nav ul li a:hover {
   padding: 20px;
   background-color: #f0f0f0;
 }
-
 
 .platform-name {
   color: rgb(14, 76, 43);

@@ -6,6 +6,9 @@
     {% csrf_token %}
     <label for="id_profile_image">Profile Image:</label>
     {{ form.profile_image }}
+    {% if has_profile_image %}
+        <a href="{% url 'delete_profile_image' %}" class="btn btn-danger">Delete Profile Image</a>
+    {% endif %}
     <br><br>
 
     <h3>Games:</h3>
