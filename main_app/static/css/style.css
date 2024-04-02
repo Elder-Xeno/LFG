@@ -9,13 +9,17 @@
   src: url('css/fonts/SF Atarian System.ttf') format('ttf');
 }
 
-/* Body styles */
+
 body {
   font-family: 'SF Atarian System', sans-serif;
   background-image: url("imgs/lfg_background.png");
 }
 
-/* Header styles */
+.profile-header h1 {
+  font-family: 'Neuropol X', sans-serif;
+  font-weight: bold;
+}
+
 header {
   /* background-color: #ec7c2c; */
   background-image: url("imgs/header_background.jpg");
@@ -51,7 +55,7 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 
-/* Main styles */
+
 .container {
   margin-top: 20px;
 }
