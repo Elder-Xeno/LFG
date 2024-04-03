@@ -120,7 +120,7 @@ def search_games_api(search):
         'Client-ID': os.environ.get("CLIENT_ID"), 
         'Authorization': f'Bearer {access_token}'
     }
-    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name, url; search: "{search}"; where version_parent = null;')
+    response = post('https://api.igdb.com/v4/games', headers=headers, data=f'fields id, name, url, cover.image_id; search: "{search}"; where version_parent = null;')
     return response.json()
 
 
@@ -129,11 +129,12 @@ def add_game(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         url = request.POST.get('url')
+        cover_id = request.POST.get('cover_id')
         platforms = request.POST.getlist('platforms')
         game_data_list = search_games_api(name)
         if game_data_list:
             game_data = game_data_list[0]
-            game = Game.objects.create(name=name, url=url)
+            game = Game.objects.create(name=name, url=url, cover_id=cover_id)
 
 
             for platform_id in platforms:

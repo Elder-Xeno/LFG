@@ -49,6 +49,7 @@
     {% for game in games_owned %}
         <div class="card">
             <div class="card-body">
+                <h4><img src="https://images.igdb.com/igdb/image/upload/t_thumb/{{ game.cover_id }}.jpg" alt="Game Cover"></h4>
                 <h4><a href="{{ game.url }}" target="_blank">{{ game.name }}</a></h4>
             </div>
         </div>

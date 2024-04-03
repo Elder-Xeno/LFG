@@ -15,6 +15,8 @@ class Game(models.Model):
     name = models.CharField(max_length=100)
     platforms = models.ManyToManyField(Platform)
     url = models.URLField()
+    cover_id = models.CharField(max_length=100)
+    
     
 
     def __str__(self):
