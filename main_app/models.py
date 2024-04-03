@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from datetime import date
 from django.contrib.auth.models import User
+from django_resized import ResizedImageField
 
 # Create your models here.
 class Platform(models.Model):
@@ -20,7 +21,7 @@ class Game(models.Model):
         return self.name
 
 class Profile(models.Model):
-    profile_image = models.ImageField(upload_to='profile_images', default='default-pic.JPG')
+    profile_image = ResizedImageField(size=[200, 200], quality=75, upload_to="profile_images/", force_format='JPEG', blank=True, default='default-pic.JPG')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     games_owned = models.IntegerField(default=0)
     games = models.ManyToManyField(Game)

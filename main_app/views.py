@@ -15,7 +15,6 @@ from django.http import JsonResponse
 from requests import post
 from django.http import HttpResponse
 from io import BytesIO
-from PIL import Image
 # from .utils import search_games_api
 
 
@@ -43,18 +42,6 @@ def upload_to_aws_s3(file, filename):
     except NoCredentialsError:
         print("Credentials not available")
         return False
-
-
-
-def resize_image(image, size=(100, 100)):
-    img = Image.open(image)
-    img.thumbnail(size)
-    if img.mode != 'RGB':
-        img = img.convert('RGB')
-    output = BytesIO()
-    img.save(output, format='JPEG')
-    output.seek(0)
-    return output
 
 
 @login_required
