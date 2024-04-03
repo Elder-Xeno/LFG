@@ -1,3 +1,6 @@
+import os
+import uuid
+import boto3
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -10,11 +13,10 @@ from .models import Profile, Game, Platform
 from django.db.models import Count
 from django.http import JsonResponse
 from requests import post
-from django.conf import settings
+from django.http import HttpResponse
 from io import BytesIO
 from PIL import Image
 # from .utils import search_games_api
-import os
 
 
 PLATFORMS = (
@@ -55,21 +57,29 @@ def resize_image(image, size=(100, 100)):
     return output
 
 
+@login_required
 def upload_profile_picture(request):
     if request.method == 'POST':
         form = ProfilePictureForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
-            uploaded_file = request.FILES['profile_image']
-            if upload_to_aws_s3(uploaded_file.file, uploaded_file.name):
-                s3_url = f'{settings.AWS_S3_CUSTOM_DOMAIN}/{uploaded_file.name}'
-                request.user.profile.profile_image = s3_url
-                request.user.profile.save()
-                return redirect('profile')
-            else:
-                pass
+            uploaded_file = request.FILES.get('profile_image', None)
+            if uploaded_file:
+                try:
+                    s3 = boto3.client('s3')
+                    bucket = os.environ['S3_BUCKET']
+                    key = uuid.uuid4().hex[:6] + uploaded_file.name[uploaded_file.name.rfind('.'):]
+                    s3.upload_fileobj(uploaded_file, bucket, key)
+                    url = f"{os.environ['S3_BASE_URL']}/{bucket}/{key}"
+                    
+                    request.user.profile.profile_image = url
+                    request.user.profile.save()
+                    return redirect('profile')
+                except Exception as e:
+                    return HttpResponse('An error occurred uploading file to S3: ' + str(e))  # Return error response for debugging
     else:
         form = ProfilePictureForm(instance=request.user.profile)
     return render(request, 'upload_profile_picture.html', {'form': form})
+
 
 
 @login_required
