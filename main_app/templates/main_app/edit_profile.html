@@ -1,34 +1,36 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <h2>Edit Profile</h2>
+<hr />
+<!-- <img class="profile-image" src="{{ form.profile_image }}" > -->
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <label for="id_profile_image">Profile Image:</label>
     {{ form.profile_image }}
     {% if has_profile_image %}
-        <a href="{% url 'delete_profile_image' %}" class="btn btn-danger">Delete Profile Image</a>
-    {% endif %}
-    <br><br>
+        <a href="{% url 'delete_profile_image' %}" class="btn btn-danger"
+    >Delete Profile Image</a
+  >
+  {% endif %}
+  <br /><br />
 
-    <h3>Games:</h3>
-    {% for game in games_owned %}
-        <div>
-            <span>{{ game.name }}</span>
-            <a href="{% url 'dissociate_game' game.id %}">Remove</a>
-        </div>
-    {% endfor %}
-    <br><br>
+  <h3>Games:</h3>
+  {% for game in games_owned %}
+  <div>
+    <span>{{ game.name }}</span>
+    <a href="{% url 'dissociate_game' game.id %}">Remove</a>
+  </div>
+  {% endfor %}
+  <br /><br />
 
-    <h3>Platforms:</h3>
-    {% for platform in platforms_owned %}
-        <div>
-            <span>{{ platform.name }}</span>
-            <a href="{% url 'dissociate_platform' platform.id %}">Remove</a>
-        </div>
-    {% endfor %}
-    <br><br>
+  <h3>Platforms:</h3>
+  {% for platform in platforms_owned %}
+  <div>
+    <span>{{ platform.name }}</span>
+    <a href="{% url 'dissociate_platform' platform.id %}">Remove</a>
+  </div>
+  {% endfor %}
+  <br /><br />
 
-    <button type="submit">Save Changes</button>
+  <button type="submit">Save Changes</button>
 </form>
 {% endblock %}

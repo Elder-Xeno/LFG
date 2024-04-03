@@ -16,7 +16,8 @@ from requests import post
 from django.http import HttpResponse
 from io import BytesIO
 # from .utils import search_games_api
-
+from botocore.exceptions import NoCredentialsError
+from django.core.files.storage import default_storage
 
 PLATFORMS = (
     ('PC', 'PC'),
@@ -31,9 +32,6 @@ PLATFORMS = (
 
 
 def upload_to_aws_s3(file, filename):
-    import boto3
-    from botocore.exceptions import NoCredentialsError
-
     s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,
                       aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
     try:
@@ -56,13 +54,13 @@ def upload_profile_picture(request):
                     bucket = os.environ['S3_BUCKET']
                     key = uuid.uuid4().hex[:6] + uploaded_file.name[uploaded_file.name.rfind('.'):]
                     s3.upload_fileobj(uploaded_file, bucket, key)
-                    url = f"{os.environ['S3_BASE_URL']}/{bucket}/{key}"
+                    url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
                     
                     request.user.profile.profile_image = url
                     request.user.profile.save()
                     return redirect('profile')
                 except Exception as e:
-                    return HttpResponse('An error occurred uploading file to S3: ' + str(e))  # Return error response for debugging
+                    return HttpResponse('An error occurred uploading file to S3: ' + str(e))
     else:
         form = ProfilePictureForm(instance=request.user.profile)
     return render(request, 'upload_profile_picture.html', {'form': form})
@@ -75,6 +73,9 @@ def profile(request, username=None):
         username = request.user.username
     user_profile = get_object_or_404(Profile, user__username=username)
     games_owned = user_profile.games.all()
+    print(user_profile)
+    print(user_profile.profile_image)
+    print(user_profile.profile_image.url)
     return render(request, 'users/profile.html', {'user_profile': user_profile, 'games_owned': games_owned})
 
 
@@ -186,8 +187,6 @@ class CustomLoginView(BaseLoginView):
         login(self.request, user)
         return redirect(reverse('profile', kwargs={'username': user.username}))
 
-
-from django.core.files.storage import default_storage
 
 def edit_profile(request):
     profile = Profile.objects.get(user=request.user)
