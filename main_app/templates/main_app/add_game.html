@@ -17,11 +17,12 @@
         <h4><a href="{{ game.url }}" target="_blank">{{ game.name }}</a></h4>
 
 
-
         <input type="text" id="id" name="id" value="{{ game.id }}" hidden>
-        <input type="text" id="name" name="name" required value="{{ game.name }}" hidden>
-        <input type="text" id="url" name="url" required value="{{ game.url }}" hidden>
-        <input type="text" id="cover_id" name="cover_id" required value="{{ game.cover.image_id }}" hidden>
+        <input type="text" id="name" name="name" value="{{ game.name }}" hidden>
+        <input type="text" id="url" name="url" value="{{ game.url }}" hidden>
+        <input type="text" id="cover_id" name="cover_id" value="{{ game.cover.image_id }}" hidden>
+        <input type="text" id="genre" name="genre" value="{{ game.genres.name }}" hidden>
+        <input type="text" id="online_coop" name="online_coop" value="{{ game.multiplayer_modes.0.onlinecoop }}" hidden>
         
 
 <label for="platforms">Platforms:</label>

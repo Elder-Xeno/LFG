@@ -4,7 +4,7 @@
 <div class="profile-header">
     <div class="profile-image-container">
         {% if user_profile.profile_image %}
-            <img class="profile-image" src="{{ user_profile.profile_image.url }}" alt="Profile Image">
+            <img class="profile-image" src="{{ user_profile.profile_image }}" alt="Profile Image">
         {% else %}
             <img class="default-profile-image" src="{% static 'css/imgs/default-pic.JPG' %}" alt="Default Profile Image">
         {% endif %}

@@ -4,7 +4,7 @@ from datetime import date
 from django.contrib.auth.models import User
 from django_resized import ResizedImageField
 
-# Create your models here.
+
 class Platform(models.Model):
     name = models.CharField(max_length=100)
 
@@ -16,7 +16,8 @@ class Game(models.Model):
     platforms = models.ManyToManyField(Platform)
     url = models.URLField()
     cover_id = models.CharField(max_length=100)
-    
+    online_coop = models.BooleanField(default=False)
+    genre = models.CharField(max_length=100)
     
 
     def __str__(self):

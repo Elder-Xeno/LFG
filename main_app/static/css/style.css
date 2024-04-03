@@ -12,7 +12,8 @@
 
 body {
   font-family: 'SF Atarian System', sans-serif;
-  background-image: url("imgs/lfg_background.png");
+  background-image: url("imgs/lfg_background_dark.png");
+  color:#f0f0f0;
 }
 
 .profile-header h1 {
