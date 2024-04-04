@@ -29,7 +29,6 @@ class Profile(models.Model):
     games_owned = models.IntegerField(default=0)
     games = models.ManyToManyField(Game)
     platforms = models.ManyToManyField(Platform, blank=True)
-    url = models.URLField()
 
     def __str__(self):
         return self.user.username
