@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 <div class="profile-header">
   <div class="profile-image-container">
     {% if user_profile.profile_image %}
@@ -49,15 +51,15 @@
         <h5 class="card-title">
           <a href="{{ game.url }}" target="_blank">{{ game.name }}</a>
         </h5>
-        <a href="{% url 'dissociate_game' game.id %}" class="btn btn-danger"
-          >Remove</a
-        >
+        <a href="{% url 'dissociate_game' game.id %}" class="btn btn-danger">Remove</a>
       </div>
     </div>
   </div>
   {% endfor %}
 </div>
+
 {% else %}
+
 <h2>Platforms:</h2>
 {% for platform in user_profile.platforms.all %}
 <h5><p>{{ platform.name }}</p></h5>
@@ -77,9 +79,15 @@
         <h5 class="card-title">
           <a href="{{ game.url }}" target="_blank">{{ game.name }}</a>
         </h5>
+        <p>Platforms:</p>
+          {% for platform in game.platforms.all %}
+            {{ platform.name }}
+          {% endfor %}
       </div>
     </div>
   </div>
   {% endfor %}
 </div>
-{% endif %} {% endblock %}
+{% endif %}
+
+{% endblock %}

@@ -75,7 +75,7 @@ def profile(request, username=None):
     games_owned = user_profile.games.all()
     print(user_profile)
     print(user_profile.profile_image)
-    print(user_profile.profile_image.url)
+    # print(user_profile.profile_image.url)
     return render(request, 'users/profile.html', {'user_profile': user_profile, 'games_owned': games_owned})
 
 
