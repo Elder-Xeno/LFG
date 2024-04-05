@@ -62,7 +62,7 @@
 
 <h2>Platforms:</h2>
 {% for platform in user_profile.platforms.all %}
-<h5><p>{{ platform.name }}</p></h5>
+<h5 class="platform">{{ platform.name }}</h5>
 {% endfor %}
 
 <h2>Games Collection ({{ games_owned.count }}):</h2>

@@ -159,3 +159,15 @@ nav ul li a:hover {
 h1 {
   color:rgb(241, 129, 10);
 }
+
+.platform {
+  display: inline-block;
+  margin-right: 50px;
+  color: rgb(145, 224, 248);
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+
+h2 {
+  margin-top: 20px;
+}
