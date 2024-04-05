@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+p {
+  color:#ccc;
+}
+
 @font-face {
   font-family: "SF Atarian System";
   src: url("css/fonts/SF Atarian System.ttf") format("ttf");
@@ -21,8 +25,8 @@ body {
 }
 
 .profile-image-container {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
   border-radius: 50%;
   border: 2px solid #fff;
@@ -85,11 +89,12 @@ nav ul li a:hover {
   align-items: center;
   margin: 10px;
   position: relative;
+  background-color: #353535;
 }
 
 .card-body {
   padding: 20px;
-  background-color: #fff;
+  background-color: #353535;
   color: #333;
   font-size: 16px;
   max-height: 100px;
@@ -98,7 +103,7 @@ nav ul li a:hover {
 }
 
 .card:hover .card-body {
-  max-height: 200px;
+  max-height: 250px;
 }
 
 .card-title {
@@ -157,7 +162,12 @@ nav ul li a:hover {
 }
 
 h1 {
-  color:rgb(241, 129, 10);
+  color: rgb(241, 129, 10);
+}
+
+.platforms-heading {
+  font-style: italic;
+  margin-bottom: 5px;
 }
 
 .platform {
@@ -170,4 +180,63 @@ h1 {
 
 h2 {
   margin-top: 20px;
+}
+
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  width: 50%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 14px;
+}
+
+.content {
+  padding: 0 10px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+.content label {
+  color: #333;
+  display: block;
+  margin-top: 5px;
+}
+
+.content input[type="text"],
+.content select {
+  width: calc(100% - 20px);
+  padding: 6px;
+  margin-top: 3px;
+  margin-bottom: 7px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+.content button[type="submit"] {
+  background-color: #1404f8;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: calc(100% - 20px);
+  font-size: 14px;
+}
+
+.content button[type="reset"] {
+  background-color: #f1800a;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: calc(100% - 20px);
+  font-size: 14px;
 }

@@ -71,10 +71,22 @@ def profile(request, username=None):
         username = request.user.username
     user_profile = get_object_or_404(Profile, user__username=username)
     games_owned = user_profile.games.all()
-    print(user_profile)
-    print(user_profile.profile_image)
-    # print(user_profile.profile_image.url)
-    return render(request, 'users/profile.html', {'user_profile': user_profile, 'games_owned': games_owned})
+    search_query = request.GET.get('search')
+    platform_name = request.GET.get('platform')
+    genre_search = request.GET.get('genre')
+
+    if search_query:
+        games_owned = games_owned.filter(name__icontains=search_query)
+
+    if platform_name:
+        games_owned = games_owned.filter(platforms__name__icontains=platform_name)
+
+    if genre_search:
+        games_owned = games_owned.filter(genre__icontains=genre_search)
+
+    platforms = Platform.objects.all()
+
+    return render(request, 'users/profile.html', {'user_profile': user_profile, 'games_owned': games_owned, 'platforms': platforms})
 
 
 @login_required
@@ -129,13 +141,22 @@ def add_game(request):
         name = request.POST.get('name')
         url = request.POST.get('url')
         cover_id = request.POST.get('cover_id')
-        online_coop = request.POST.get('online_coop') 
+        # online_coop = request.POST.get('online_coop') 
         genre = request.POST.get('genre')
         platforms = request.POST.getlist('platforms')
         game_data_list = search_games_api(name)
         if game_data_list:
             game_data = game_data_list[0]
-            game = Game.objects.create(name=name, url=url, cover_id=cover_id, online_coop=online_coop, genre=genre)
+            genre_list = game_data.get('genres', [])
+            genres = ", ".join(genre.get('name') for genre in genre_list)
+            
+            game = Game.objects.create(
+                name=name, 
+                url=url, 
+                cover_id=cover_id, 
+                # online_coop=online_coop, 
+                genre=genres
+            )
 
 
             for platform_id in platforms:

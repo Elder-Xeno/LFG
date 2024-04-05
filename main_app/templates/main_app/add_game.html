@@ -25,13 +25,13 @@
         <input type="checkbox" id="online_coop" name="online_coop" value="{{ game.multiplayer_modes.0.onlinecoop }}" hidden>
         
 
-<label for="platforms">Platforms:</label>
-<select name="platforms" id="platforms">
-  {% for platform in platforms %}
-  <option value="{{ platform.id }}">{{ platform.name }}</option>
-  {% endfor %}
-</select>
-<button type="submit">Add Game</button>
+        <label>Platforms:</label>
+        <div class="checkbox-list">
+          {% for platform in platforms %}
+          <label><input type="checkbox" name="platforms" value="{{ platform.id }}"> {{ platform.name }}</label>
+          {% endfor %}
+        </div>
+        <button type="submit">Add Game</button>        
 </form>
 {% endfor %}
 </ul>

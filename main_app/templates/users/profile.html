@@ -23,71 +23,103 @@
   {% endif %}
 </div>
 
-{% if edit_mode %}
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <label for="id_profile_image">Upload Profile Picture:</label>
-  <input type="file" name="profile_image" id="id_profile_image" />
-  <button type="submit">Upload</button>
-</form>
+<button type="button" class="collapsible">Filter Games</button>
+<div class="content" style="display: none;">
+  <form method="GET" action="{% url 'profile' %}">
+    <label for="game_search">Search for Games:</label>
+    <input type="text" name="search" id="game_search" value="{{ request.GET.search }}">
+    
+    <label for="platform_search">Search by Platform:</label>
+    <select name="platform" id="platform_search" multiple>
+      <option value="">All Platforms</option>
+      {% for platform in platforms %}
+        <option value="{{ platform.name }}" {% if platform.name in request.GET.platform %}selected{% endif %}>{{ platform.name }}</option>
+      {% endfor %}
+    </select>
+    
+    <label for="genre_search">Search by Genre:</label>
+    <input type="text" name="genre" id="genre_search" value="{{ request.GET.genre }}">
+    
+    <button type="submit">Search</button>
+    <button type="reset" onclick="clearFilters()">Clear Filters</button>
+  </form>
+</div>
 
 <h2>Platforms:</h2>
 {% for platform in user_profile.platforms.all %}
-<p>{{ platform.name }}</p>
-<a href="{% url 'dissociate_platform' platform.id %}">Remove</a>
+<p class="platform platform-name">{{ platform.name }}</p>
 {% endfor %}
 
-<h2>Games Collection ({{ games_owned.count }}):</h2>
-<div class="row">
-  {% for game in games_owned %}
-  <div class="col-lg-3 col-md-4 col-sm-6">
-    <div class="card">
-      <img
-        src="https://images.igdb.com/igdb/image/upload/t_thumb/{{ game.cover_id }}.jpg"
-        class="card-img-top"
-        alt="Game Cover"
-      />
-      <div class="card-body">
-        <h5 class="card-title">
-          <a href="{{ game.url }}" target="_blank">{{ game.name }}</a>
-        </h5>
-        <a href="{% url 'dissociate_game' game.id %}" class="btn btn-danger">Remove</a>
+{% if filtered_games %}
+  <h2>Filtered Games Collection ({{ filtered_games.count }}):</h2>
+  <div class="row">
+    {% for game in filtered_games %}
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="card">
+          <img
+            src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{ game.cover_id }}.jpg"
+            class="card-img-top"
+            alt="Game Cover"
+          />
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{{ game.url }}" target="_blank">{{ game.name }}</a>
+            </h5>
+            <p>Platforms:</p>
+            {% for platform in game.platforms.all %}
+              <p>{{ platform.name }}</p>
+            {% endfor %}
+          </div>
+        </div>
       </div>
-    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
-
 {% else %}
-
-<h2>Platforms:</h2>
-{% for platform in user_profile.platforms.all %}
-<h5 class="platform">{{ platform.name }}</h5>
-{% endfor %}
-
-<h2>Games Collection ({{ games_owned.count }}):</h2>
-<div class="row">
-  {% for game in games_owned %}
-  <div class="col-lg-3 col-md-4 col-sm-6">
-    <div class="card">
-      <img
-        src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{ game.cover_id }}.jpg"
-        class="card-img-top"
-        alt="Game Cover"
-      />
-      <div class="card-body">
-        <h5 class="card-title">
-          <a href="{{ game.url }}" target="_blank">{{ game.name }}</a>
-        </h5>
-        <p>Platforms:</p>
-          {% for platform in game.platforms.all %}
-            {{ platform.name }}
-          {% endfor %}
+  <h2>Games Collection ({{ games_owned.count }}):</h2>
+  <div class="row">
+    {% for game in games_owned %}
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="card">
+          <img
+            src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{ game.cover_id }}.jpg"
+            class="card-img-top"
+            alt="Game Cover"
+          />
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{{ game.url }}" target="_blank">{{ game.name }}</a>
+            </h5>
+            <p>Platforms:</p>
+            {% for platform in game.platforms.all %}
+            <span class="platform">{{ platform.name }}</span> 
+            {% endfor %}
+          </div>
+        </div>
       </div>
-    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
 {% endif %}
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const collapsibleButton = document.querySelector('.collapsible');
+    const content = document.querySelector('.content');
+  
+    collapsibleButton.addEventListener('click', function() {
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+      } else {
+        content.style.display = 'none';
+      }
+    });
+  });
+
+  function clearFilters() {
+    document.getElementById("game_search").value = "";
+    document.getElementById("platform_search").value = "";
+    document.getElementById("genre_search").value = "";
+    
+    document.querySelector('.content form').submit();
+  }
+</script>
 {% endblock %}
