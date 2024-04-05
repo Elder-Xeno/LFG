@@ -16,7 +16,7 @@ class Game(models.Model):
     platforms = models.ManyToManyField(Platform)
     url = models.URLField()
     cover_id = models.CharField(max_length=100)
-    online_coop = models.BooleanField(default=False)
+    online_coop = models.BooleanField(default=False, null=True)
     genre = models.CharField(max_length=100)
     
 

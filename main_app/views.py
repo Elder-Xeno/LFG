@@ -132,8 +132,6 @@ def add_game(request):
         url = request.POST.get('url')
         cover_id = request.POST.get('cover_id')
         online_coop = request.POST.get('online_coop') 
-        print("------online_coop", online_coop)
-
         genre = request.POST.get('genre')
         platforms = request.POST.getlist('platforms')
         game_data_list = search_games_api(name)

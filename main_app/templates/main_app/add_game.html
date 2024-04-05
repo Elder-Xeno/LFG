@@ -22,7 +22,7 @@
         <input type="text" id="url" name="url" value="{{ game.url }}" hidden>
         <input type="text" id="cover_id" name="cover_id" value="{{ game.cover.image_id }}" hidden>
         <input type="text" id="genre" name="genre" value="{{ game.genres.name }}" hidden>
-        <input type="text" id="online_coop" name="online_coop" value="{{ game.multiplayer_modes.0.onlinecoop }}" hidden>
+        <input type="checkbox" id="online_coop" name="online_coop" value="{{ game.multiplayer_modes.0.onlinecoop }}" hidden>
         
 
 <label for="platforms">Platforms:</label>
