@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Add Platform</h1>
-<form method="post" action="{% url 'add_platform' %}">
-  {% csrf_token %}
-  <label>Select Platform:</label><br>
-  {% for platform_code, platform_name in platforms %}
-    <input type="radio" id="{{ platform_code }}" name="name" value="{{ platform_code }}">
-    <label for="{{ platform_code }}">{{ platform_name }}</label><br>
-  {% endfor %}
-  <br>
-  <button type="submit">Add Platform</button>
-</form>
+<div class="add-page-container">
+  <div class="add-page-header">
+    <h1>Add Platform</h1>
+  </div>
+  <form method="post" action="{% url 'add_platform' %}" class="add-page-form">
+    {% csrf_token %}
+    <label class="add-page-label">Select Platform:</label><br>
+    {% for platform_code, platform_name in platforms %}
+      <input type="radio" id="{{ platform_code }}" name="name" value="{{ platform_code }}" class="add-page-radio">
+      <label for="{{ platform_code }}" class="add-page-label">{{ platform_name }}</label><br>
+    {% endfor %}
+    <br>
+    <button type="submit" class="add-page-button">Add Platform</button>
+  </form>
+</div>
 {% endblock %}

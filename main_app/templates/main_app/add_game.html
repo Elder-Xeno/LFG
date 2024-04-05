@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Add Game</h1>
-<form action="" method="GET">
-  {% csrf_token %}
-  <label for="new-game-search">Search Game:</label>
-  <input type="text" id="new-game-search" name="search" value="{{ request.GET.search }}">
-  <button>Search</button>
-</form>
+<div class="add-page-container">
+  <div class="add-page-header">
+    <h1>Add Game</h1>
+  </div>
+  <form action="" method="GET" class="add-page-form">
+    {% csrf_token %}
+    <label for="new-game-search" class="add-page-label">Search Game:</label>
+    <input type="text" id="new-game-search" name="search" value="{{ request.GET.search }}" class="add-page-input">
+    <button type="submit" class="add-page-button">Search</button>
+  </form>
   
-<ul>  
-  {% for game in games %}
-      <form method="post" action="{% url 'add_game' %}">
+  <ul>  
+    {% for game in games %}
+      <form method="post" action="{% url 'add_game' %}" class="add-page-form">
         {% csrf_token %}
-        <!-- <h4>{{ game.name }}</h4> -->
-        <h4><img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{ game.cover.image_id }}.jpg" alt="Game Cover"></h4>
-        <h4><a href="{{ game.url }}" target="_blank">{{ game.name }}</a></h4>
-
-
+        <h4><img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{ game.cover.image_id }}.jpg" alt="Game Cover" class="add-page-image"></h4>
+        <h4><a href="{{ game.url }}" target="_blank" class="add-page-link">{{ game.name }}</a></h4>
         <input type="text" id="id" name="id" value="{{ game.id }}" hidden>
         <input type="text" id="name" name="name" value="{{ game.name }}" hidden>
         <input type="text" id="url" name="url" value="{{ game.url }}" hidden>
@@ -24,15 +24,15 @@
         <input type="text" id="genre" name="genre" value="{{ game.genres.name }}" hidden>
         <input type="checkbox" id="online_coop" name="online_coop" value="{{ game.multiplayer_modes.0.onlinecoop }}" hidden>
         
-
-        <label>Platforms:</label>
+        <label class="add-page-label">Platforms:</label>
         <div class="checkbox-list">
           {% for platform in platforms %}
-          <label><input type="checkbox" name="platforms" value="{{ platform.id }}"> {{ platform.name }}</label>
+            <label><input type="checkbox" name="platforms" value="{{ platform.id }}" class="add-page-checkbox"> {{ platform.name }}</label>
           {% endfor %}
         </div>
-        <button type="submit">Add Game</button>        
-</form>
-{% endfor %}
-</ul>
+        <button type="submit" class="add-page-button">Add Game</button>        
+      </form>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}

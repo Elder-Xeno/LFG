@@ -173,7 +173,7 @@ h1 {
 .platform {
   display: inline-block;
   margin-right: 50px;
-  color: rgb(145, 224, 248);
+  color: #91e0f8;
   margin-bottom: 30px;
   font-size: 20px;
 }
@@ -255,4 +255,87 @@ h2 {
 .content button[type="reset"]:hover {
   background-color: #ef8f29;
   color: #000;
+}
+
+.add-page-container {
+  margin-top: 20px;
+}
+
+.add-page-header h1 {
+  color: rgb(241, 129, 10);
+}
+
+.add-page-form {
+  padding: 0 10px;
+}
+
+.add-page-label {
+  color: #91e0f8;
+  display: block;
+  margin-top: 5px;
+}
+
+.add-page-input,
+.add-page-select {
+  width: calc(50% - 10px);
+  padding: 6px;
+  margin-top: 3px;
+  margin-bottom: 7px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+.add-page-button {
+  background-color: #1404f8;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: calc(50% - 10px);
+  font-size: 14px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.add-page-button:hover {
+  background-color: #3f32f5;
+  color: #000;
+}
+
+.add-game-form {
+  background-color: #f1f1f1;
+  display: none;
+  overflow: hidden;
+}
+
+.add-game-header {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  width: 50%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 14px;
+}
+
+.add-platform-form {
+  background-color: #f1f1f1;
+  display: none;
+  overflow: hidden;
+}
+
+.add-platform-header {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  width: 50%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 14px;
 }
