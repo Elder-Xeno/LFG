@@ -36,6 +36,7 @@ body {
 header {
   background-image: url("imgs/header_background.jpg");
   background-position: center;
+  background-size: cover;
   color: #fff;
   padding: 10px;
   display: flex;
