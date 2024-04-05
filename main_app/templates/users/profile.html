@@ -25,7 +25,8 @@
 
 <button type="button" class="collapsible">Filter Games</button>
 <div class="content" style="display: none;">
-  <form method="GET" action="{% url 'profile' %}">
+  <form method="GET" action="{% url 'profile' username=user_profile.user.username %}">
+    <label for="game_search">Search for Games:</label>
     <label for="game_search">Search for Games:</label>
     <input type="text" name="search" id="game_search" value="{{ request.GET.search }}">
     
