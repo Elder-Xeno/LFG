@@ -226,7 +226,7 @@ h2 {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  width: calc(100% - 20px);
+  width: calc(50% - 10px);
   font-size: 14px;
 }
 
@@ -237,6 +237,22 @@ h2 {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  width: calc(100% - 20px);
+  width: calc(50% - 10px);
   font-size: 14px;
+}
+
+.content button[type="submit"],
+.content button[type="reset"] {
+  width: calc(50% - 10px);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.content button[type="submit"]:hover {
+  background-color: #3f32f5;
+  color: #000;
+}
+
+.content button[type="reset"]:hover {
+  background-color: #ef8f29;
+  color: #000;
 }
