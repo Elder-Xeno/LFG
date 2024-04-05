@@ -25,8 +25,6 @@ PLATFORMS = (
     ('PS5', 'PlayStation 5'),
     ('XBOX', 'Xbox One'),
     ('XBOX_SERIES_X', 'Xbox Series X'),
-    ('XBOX_SERIES_S', 'Xbox Series S'),
-    ('SWITCH_LITE', 'Nintendo Switch Lite'),
     ('SWITCH', 'Nintendo Switch'),
 )
 
