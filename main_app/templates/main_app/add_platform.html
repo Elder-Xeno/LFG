@@ -3,13 +3,12 @@
 <h1>Add Platform</h1>
 <form method="post" action="{% url 'add_platform' %}">
   {% csrf_token %}
-  <label for="name">Select Platform:</label>
-  <select id="name" name="name" multiple>
-    {% for platform_code, platform_name in platforms %}
-    <option value="{{ platform_code }}">{{ platform_name }}</option>
-    {% endfor %}
-  </select>
-  <br><br>
+  <label>Select Platform:</label><br>
+  {% for platform_code, platform_name in platforms %}
+    <input type="radio" id="{{ platform_code }}" name="name" value="{{ platform_code }}">
+    <label for="{{ platform_code }}">{{ platform_name }}</label><br>
+  {% endfor %}
+  <br>
   <button type="submit">Add Platform</button>
 </form>
 {% endblock %}
