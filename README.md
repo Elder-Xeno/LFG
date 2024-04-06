@@ -34,5 +34,10 @@ A user can also search the username of other users and browse thier collections.
 ## Planned Future Enhancements.
 For future versions of the app, we have planned a chat function for users to live chat with one another, with plans to make a direct messaging service available also.
 
-Click here to check out LFG: https://lfg-id2w.onrender.com
+Click here to check out LFG on Render: https://lfg-id2w.onrender.com
+
+Pitch Deck: https://docs.google.com/presentation/d/1VWoVGV4moJFUtggDhJT0vcscu6FwHyPRjcY05OBxlMM/edit?usp=sharing
+
+Trello Board: https://trello.com/b/QAoXSMX1/lfg-looking-for-gamers
+
 
